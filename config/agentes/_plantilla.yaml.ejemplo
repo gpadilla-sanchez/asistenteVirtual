@@ -1,0 +1,43 @@
+# =====================================================================
+#  Configuración de UN agente. Copia este archivo como <id>.yaml
+#  (o usa: npm run agente -- nuevo). Aquí NO van contraseñas.
+# =====================================================================
+id: nuevo-agente               # igual al nombre del archivo; minúsculas y guiones
+nombre: Nombre Apellido        # aparece en los mensajes: "soy Nombre Apellido, tu asesor de seguros"
+activo: true                   # false = pausa todos sus envíos
+# correo_avisos: agente@ejemplo.com
+
+whatsapp:
+  # Meta → WhatsApp → Configuración de la API. Cada agente puede tener su número
+  # o compartir uno (el asistente distingue a quién responde cada cliente).
+  phone_number_id: "000000000000000"
+
+panel:
+  usuario: nuevo-agente        # la contraseña: npm run secretos -- panel <id>
+
+fuente:
+  tipo: portal                 # portal = entra al portal con su usuario | archivo = lee el reporte que deje en su carpeta
+  perfil: seguros_monterrey    # config/portales/<perfil>.yaml
+  # carpeta: ./entrada/nuevo-agente   # solo si tipo: archivo
+  sincronizar: "0 7 * * *"     # CUÁNDO leer la aseguradora (cron). "0 7 * * *" = diario 7:00 · "0 7,13 * * 1-6" = 7:00 y 13:00 lun-sáb
+  max_antiguedad_horas: 30     # si la última lectura es más vieja, no se envía nada (para no avisar a quien ya pagó)
+
+envios:
+  # ---- CUÁNDO ----
+  hora_revision: "10:00"                        # hora del envío diario
+  dias_semana: [lun, mar, mie, jue, vie, sab]   # días en que se permite enviar
+  horario: { inicio: "09:00", fin: "20:00" }    # nunca se envía fuera de este horario
+  primer_aviso_dias_antes: 5                    # primer mensaje N días antes de la fecha límite
+
+  # ---- CADA CUÁNDO ----
+  repetir_cada_dias: 1             # si responde "No" o no contesta, volver a avisar cada N días (antes del vencimiento; siempre avisa el día límite)
+  repetir_cada_dias_vencido: 1     # cada N días una vez vencido
+
+  # ---- HASTA CUÁNDO ----
+  max_avisos: 10                   # después pasa a "Requiere atención" y se avisa al agente
+  dejar_de_avisar_dias_despues: 30 # días después del vencimiento en que se deja de avisar
+  reabrir_reportado_tras_dias: 5   # si dijo "Sí" pero la aseguradora no aplica el pago en N días, se reanuda (0 = nunca)
+
+  # Consentimiento: el portal no indica quién aceptó WhatsApp. true = se asume que el agente
+  # tiene el consentimiento de sus clientes (p. ej. en la solicitud de la póliza).
+  acepta_por_defecto: true

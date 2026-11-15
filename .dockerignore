@@ -1,0 +1,11 @@
+node_modules
+dist
+data
+data-simulacion
+secretos
+secretos-simulacion
+entrada
+tests
+.env
+*.log
+.git

@@ -1,0 +1,39 @@
+# =====================================================================
+#  Sistema · PRODUCCIÓN
+#  Ajustes generales de la plataforma. Aquí NO van contraseñas ni tokens:
+#  esos se guardan cifrados con `npm run secretos`.
+# =====================================================================
+modo: produccion
+zona_horaria: America/Mexico_City
+puerto: 3000
+nivel_log: info
+# correo_admin: tu-correo@ejemplo.com
+
+meta:
+  graph_url: https://graph.facebook.com
+  version_api: v23.0
+  waba_id: ""                       # WhatsApp Business Account ID (para npm run crear-plantillas)
+  plantillas:
+    recordatorio: recordatorio_poliza_v1
+    seguimiento: seguimiento_poliza_v1
+    idioma: es_MX
+
+navegador:
+  # En Docker se usa el Chromium del sistema (/usr/bin/chromium)
+  ruta_chromium: ${RUTA_CHROMIUM:-}
+  sincronizaciones_simultaneas: 1   # en Raspberry Pi 4/5 deja 1; cada navegador usa ~250 MB
+  tiempo_espera_seg: 45
+
+# Correo para avisar a los agentes (opcional). La contraseña: npm run secretos -- correo
+correo:
+  # host: smtp.gmail.com
+  puerto: 465
+  seguro: true
+  # usuario: avisos@tudominio.com
+  # remitente: "Asistente de cobranza <avisos@tudominio.com>"
+
+panel:
+  admin_usuario: admin
+
+envios:
+  pausa_entre_envios_ms: 300

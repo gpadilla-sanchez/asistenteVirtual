@@ -1,0 +1,56 @@
+# =====================================================================
+#  Perfil del portal de agentes de Seguros Monterrey — POR COMPLETAR
+#
+#  Aún no conocemos la estructura del portal real. Cuando tengas acceso:
+#   1. Inicia sesión en Chrome, abre la sección de recibos/cobranza pendientes.
+#   2. Clic derecho sobre cada elemento → Inspeccionar → clic derecho en el código → Copiar → Copiar selector.
+#   3. Pega los selectores abajo y prueba con:  npm run probar-portal -- <agente> --capturas
+#   4. Revisa las capturas en data/agentes/<agente>/portal/capturas/ y ajusta hasta que lea bien.
+#
+#  Si el portal pide captcha o un código por SMS/correo (doble factor), el inicio de sesión
+#  no se puede automatizar: usa en el agente  fuente.tipo: archivo  y deja el reporte exportado
+#  en su carpeta (ver config/portales/archivo_generico.yaml).
+#
+#  Antes de automatizar, confirma con la aseguradora que su uso está permitido en las
+#  condiciones del portal o pregunta si ofrecen un reporte o API para agentes.
+# =====================================================================
+nombre: Seguros Monterrey (portal de agentes)
+url_login: https://PENDIENTE-url-de-inicio-de-sesion-del-portal
+
+login:
+  usuario: "#PENDIENTE-campo-usuario"
+  contrasena: "#PENDIENTE-campo-contrasena"
+  entrar: "#PENDIENTE-boton-entrar"
+  exito: "#PENDIENTE-elemento-que-aparece-al-entrar"
+  error: "#PENDIENTE-mensaje-de-error"
+  # captcha: "#PENDIENTE-captcha"     # si existe, el asistente avisa en vez de intentar
+
+pasos: []
+  # Cómo llegar desde la página de inicio a la lista (quita "[]" arriba y descomenta):
+  # Cómo llegar desde la página de inicio a la lista de recibos pendientes:
+  # - clic: "#PENDIENTE-menu-cobranza"
+  # - esperar: "#PENDIENTE-tabla-recibos"
+
+extraccion:
+  tipo: tabla                     # tabla | descarga (si el portal tiene botón para exportar a Excel/CSV, es más confiable)
+  tabla: "#PENDIENTE-tabla-recibos"
+  # siguiente: "#PENDIENTE-boton-pagina-siguiente"
+  # descarga: "#PENDIENTE-boton-exportar"
+
+# Texto EXACTO del encabezado de cada columna en el portal
+columnas:
+  id: No. Recibo
+  poliza: Póliza
+  cliente: Contratante
+  telefono: Teléfono
+  producto: Producto
+  monto: Prima
+  fecha_vencimiento: Fecha límite de pago
+  estado: Estatus
+
+estados:
+  pendiente: [Pendiente, Por pagar, Vencido]
+  pagado: [Pagado, Aplicado]
+  cancelado: [Cancelado]
+
+formato_fecha: dd/mm/aaaa

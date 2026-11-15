@@ -1,0 +1,27 @@
+# Agente de DEMOSTRACIÓN con reglas distintas: menos insistente y lee el portal descargando el CSV.
+id: luis-martinez
+nombre: Luis Martínez
+activo: true
+
+whatsapp:
+  phone_number_id: "100000000000002"
+
+panel:
+  usuario: luis
+
+fuente:
+  tipo: portal
+  perfil: aseguradora_demo_descarga
+  sincronizar: "30 6 * * 1-5"     # lunes a viernes 6:30
+
+envios:
+  hora_revision: "11:30"
+  dias_semana: [lun, mar, mie, jue, vie]
+  horario: { inicio: "10:00", fin: "18:00" }
+  primer_aviso_dias_antes: 3
+  repetir_cada_dias: 2            # cada 2 días antes del vencimiento
+  repetir_cada_dias_vencido: 1    # diario ya vencido
+  dejar_de_avisar_dias_despues: 20
+  max_avisos: 6
+  reabrir_reportado_tras_dias: 5
+  acepta_por_defecto: true

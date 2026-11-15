@@ -1,0 +1,31 @@
+# =====================================================================
+#  Sistema · MODO SIMULACIÓN
+#  Todo apunta a los simuladores (WhatsApp falso y aseguradora ficticia).
+#  Nada sale a internet: ideal para probar en la Raspberry.
+# =====================================================================
+modo: simulacion
+zona_horaria: America/Mexico_City
+puerto: 3000
+nivel_log: info
+
+meta:
+  # El simulador imita la API de Meta en el puerto 4000
+  graph_url: ${GRAPH_URL:-http://localhost:4000}
+  version_api: v23.0
+  waba_id: WABA-SIMULADO
+  plantillas:
+    recordatorio: recordatorio_poliza_v1
+    seguimiento: seguimiento_poliza_v1
+    idioma: es_MX
+
+navegador:
+  # Vacío = Chromium de Playwright. En Docker se usa el del sistema.
+  ruta_chromium: ${RUTA_CHROMIUM:-}
+  sincronizaciones_simultaneas: 1
+  tiempo_espera_seg: 30
+
+panel:
+  admin_usuario: admin
+
+envios:
+  pausa_entre_envios_ms: 100

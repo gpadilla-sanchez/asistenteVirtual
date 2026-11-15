@@ -1,0 +1,28 @@
+# Agente de DEMOSTRACIÓN. Lee la aseguradora simulada navegando la tabla del portal.
+id: ana-lopez
+nombre: Ana López
+activo: true
+
+whatsapp:
+  phone_number_id: "100000000000001"
+
+panel:
+  usuario: ana
+
+fuente:
+  tipo: portal
+  perfil: aseguradora_demo
+  sincronizar: "0 7 * * *"        # todos los días a las 7:00
+  max_antiguedad_horas: 30
+
+envios:
+  hora_revision: "10:00"
+  dias_semana: [lun, mar, mie, jue, vie, sab]
+  horario: { inicio: "09:00", fin: "20:00" }
+  primer_aviso_dias_antes: 5      # primer mensaje 5 días antes del límite
+  repetir_cada_dias: 1            # si dice "No" o no contesta: al día siguiente
+  repetir_cada_dias_vencido: 1
+  dejar_de_avisar_dias_despues: 30
+  max_avisos: 8
+  reabrir_reportado_tras_dias: 3
+  acepta_por_defecto: true

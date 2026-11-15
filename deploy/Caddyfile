@@ -1,0 +1,13 @@
+# Certificado HTTPS automático (Let's Encrypt) para tu dominio de Nuebox.
+# Requisito: en el router, los puertos 80 y 443 deben apuntar a la Raspberry.
+{$DOMINIO} {
+	encode gzip
+	reverse_proxy asistente:3000
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		-Server
+	}
+}

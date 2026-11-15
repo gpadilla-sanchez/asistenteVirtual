@@ -1,0 +1,30 @@
+# Mismo portal simulado, pero en lugar de leer la tabla descarga el CSV con "Exportar".
+nombre: Aseguradora Demo (simulada, exportación CSV)
+url_login: ${SIMULADOR_PORTAL_URL:-http://localhost:4100}/login
+
+login:
+  usuario: "#usuario"
+  contrasena: "#contrasena"
+  entrar: "#entrar"
+  exito: "#menu-principal"
+  error: ".error-login"
+
+pasos:
+  - ir: /cobranza
+  - esperar: "a#exportar"
+
+extraccion:
+  tipo: descarga
+  descarga: "a#exportar"
+
+columnas:
+  id: Recibo
+  poliza: Póliza
+  cliente: Contratante
+  telefono: Teléfono
+  producto: Producto
+  monto: Prima
+  fecha_vencimiento: Fecha límite
+  estado: Estado
+
+formato_fecha: dd/mm/aaaa

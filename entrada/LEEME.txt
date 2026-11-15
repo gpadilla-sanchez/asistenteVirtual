@@ -1,0 +1,1 @@
+Carpeta para agentes con fuente "archivo": crea entrada/<agente>/ y deja ahí el reporte .xlsx o .csv exportado del portal.

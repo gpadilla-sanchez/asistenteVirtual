@@ -1,0 +1,10 @@
+node_modules/
+dist/
+data/
+data-simulacion/
+secretos/
+secretos-simulacion/
+entrada/*
+!entrada/LEEME.txt
+.env
+*.log

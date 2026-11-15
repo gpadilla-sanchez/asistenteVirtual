@@ -1,0 +1,82 @@
+# Dos perfiles:
+#   simulacion → asistente + simuladores (WhatsApp falso y aseguradora ficticia). Nada sale a internet.
+#   produccion → asistente + Caddy (HTTPS con tu dominio). Usa config/ y secretos/ reales.
+# Lo más cómodo es usar ./asistente.sh (ver README).
+
+x-imagen: &imagen
+  build: .
+  image: plataforma-asistente-seguros:latest
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options: { max-size: "10m", max-file: "5" }
+
+services:
+  # ======================= SIMULACIÓN =======================
+  asistente-sim:
+    <<: *imagen
+    profiles: [simulacion]
+    container_name: asistente-sim
+    environment:
+      DIR_CONFIG: /app/config-simulacion
+      DIR_SECRETOS: /app/secretos-simulacion
+      DIR_DATOS: /app/data-simulacion
+      GRAPH_URL: http://simulador:4000
+      SIMULADOR_PORTAL_URL: http://simulador:4100
+      SIMULACION_TOKEN: token-control-SIMULACION
+    # Crea los secretos de demostración (si faltan) y arranca
+    command: ["sh", "-c", "node dist/cli/inicializar.js --simulacion && node dist/index.js"]
+    ports:
+      - "3000:3000"   # panel: http://<ip-de-la-raspberry>:3000/panel
+    volumes:
+      - ./config-simulacion:/app/config-simulacion:ro
+      - ./secretos-simulacion:/app/secretos-simulacion
+      - ./data-simulacion:/app/data-simulacion
+
+  simulador:
+    <<: *imagen
+    profiles: [simulacion]
+    container_name: simulador
+    command: ["node", "dist/simulador/index.js"]
+    environment:
+      ASISTENTE_URL: http://asistente-sim:3000
+    ports:
+      - "4000:4000"   # teléfono WhatsApp simulado
+      - "4100:4100"   # portal de la aseguradora ficticia
+
+  # ======================= PRODUCCIÓN =======================
+  asistente:
+    <<: *imagen
+    profiles: [produccion]
+    container_name: asistente
+    environment:
+      DIR_CONFIG: /app/config
+      DIR_SECRETOS: /app/secretos
+      DIR_DATOS: /app/data
+    volumes:
+      - ./config:/app/config        # editable: npm run agente -- nuevo escribe aquí
+      - ./secretos:/app/secretos      # archivos cifrados + clave maestra (permisos 600)
+      - ./data:/app/data              # una base por agente, respaldos, capturas del portal
+      - ./entrada:/app/entrada:ro     # reportes para agentes con fuente "archivo"
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2
+    profiles: [produccion]
+    container_name: caddy
+    restart: unless-stopped
+    depends_on: [asistente]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMINIO: ${DOMINIO:-localhost}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

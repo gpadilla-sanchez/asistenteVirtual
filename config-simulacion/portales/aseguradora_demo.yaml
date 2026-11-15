@@ -1,0 +1,37 @@
+# Perfil del portal SIMULADO (puerto 4100). Lee la tabla paginada.
+nombre: Aseguradora Demo (simulada)
+url_login: ${SIMULADOR_PORTAL_URL:-http://localhost:4100}/login
+
+login:
+  usuario: "#usuario"
+  contrasena: "#contrasena"
+  entrar: "#entrar"
+  exito: "#menu-principal"
+  error: ".error-login"
+
+pasos:
+  - clic: "#menu-cobranza"
+  - esperar: "table#recibos"
+
+extraccion:
+  tipo: tabla
+  tabla: "table#recibos"
+  siguiente: "a#siguiente"
+  max_paginas: 20
+
+columnas:
+  id: Recibo
+  poliza: Póliza
+  cliente: Contratante
+  telefono: Teléfono
+  producto: Producto
+  monto: Prima
+  fecha_vencimiento: Fecha límite
+  estado: Estado
+
+estados:
+  pendiente: [Pendiente, Vencido]
+  pagado: [Pagado, Aplicado]
+  cancelado: [Cancelado]
+
+formato_fecha: dd/mm/aaaa

@@ -1,0 +1,17 @@
+# Perfil para la fuente "archivo": el agente (o un proceso) deja el reporte .xlsx o .csv
+# exportado del portal en su carpeta (entrada/<agente>/) y el asistente lee el más reciente.
+# Solo se usan "columnas", "estados" y "formato_fecha".
+nombre: Reporte exportado (Excel/CSV)
+url_login: no-aplica
+
+columnas:
+  id: Recibo
+  poliza: Póliza
+  cliente: Contratante
+  telefono: Teléfono
+  producto: Producto
+  monto: Prima
+  fecha_vencimiento: Fecha límite
+  estado: Estado
+
+formato_fecha: dd/mm/aaaa
